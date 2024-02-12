@@ -91,18 +91,26 @@ const articles = [
     }
 ];
 
-const categories = ['All', 'Technology', 'Sports', 'Politics', 'Entertainment']; // Define category options
+// Define category options
+const categories = ['All', 'Technology', 'Sports', 'Politics', 'Entertainment'];
 
 const HomeScreen = ({ navigation }) => {
+    // State for search text
     const [searchText, setSearchText] = useState('');
+
+    // State for selected category
     const [selectedCategory, setSelectedCategory] = useState('All');
+
+    // Get window width for responsive design
     const windowWidth = useWindowDimensions().width;
 
+    // Filter articles based on search text and selected category
     const filteredArticles = articles.filter(article =>
         article.title.toLowerCase().includes(searchText.toLowerCase()) &&
         (selectedCategory === 'All' || article.category === selectedCategory)
     );
 
+    // Render each article item
     const renderItem = ({ item }) => (
         <TouchableOpacity onPress={() => navigation.navigate('ArticleDetail', { article: item })}>
             <Box bg="white" p={4} mb={4} borderRadius={8} shadow={2}>
@@ -114,12 +122,14 @@ const HomeScreen = ({ navigation }) => {
         </TouchableOpacity>
     );
 
+    // Navigate to saved articles screen
     const navigateToSavedArticles = () => {
         navigation.navigate('SavedArticles');
     };
 
     return (
         <Center flex={1} p={4} bg="gray.100" mt={10}>
+            {/* Search bar */}
             <View flexDirection="row" alignItems="center" mb={4}>
                 <Icon
                     as={<MaterialIcons name="search" />}
@@ -135,6 +145,8 @@ const HomeScreen = ({ navigation }) => {
                     variant="filled"
                 />
             </View>
+
+            {/* Category filter */}
             <HStack flexWrap="wrap">
                 {categories.map(category => (
                     <Pressable
@@ -155,13 +167,17 @@ const HomeScreen = ({ navigation }) => {
                     </Pressable>
                 ))}
             </HStack>
+
+            {/* List of articles */}
             <FlatList
                 data={filteredArticles}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
             />
+
+            {/* Button to navigate to saved articles */}
             <TouchableOpacity onPress={navigateToSavedArticles} style={{ position: 'absolute', bottom: 20, right: 20 }}>
-                <Text style={{ color: 'blue' }}></Text>
+                <Text style={{ color: 'blue' }}>Go to Saved Articles</Text>
             </TouchableOpacity>
         </Center>
     );
