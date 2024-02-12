@@ -23,24 +23,7 @@ const ArticleDetailScreen = ({ route }) => {
         }
     };
 
-    const saveForLater = async () => {
-        try {
-            const savedArticlesJson = await AsyncStorage.getItem('savedArticles');
-            const savedArticles = savedArticlesJson ? JSON.parse(savedArticlesJson) : [];
-
-            const isArticleSaved = savedArticles.some(savedArticle => savedArticle.id === article.id);
-            if (!isArticleSaved) {
-                savedArticles.push(article);
-                await AsyncStorage.setItem('savedArticles', JSON.stringify(savedArticles));
-                console.log("Article saved for later:", article.title);
-            } else {
-                console.log("Article is already saved.");
-            }
-        } catch (error) {
-            console.error("Error saving article:", error);
-        }
-    };
-
+    
     return (
         <SafeAreaView style={{ flex: 1, marginTop: 50 }} >
             <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }} p={4} bg="gray.100">
@@ -48,18 +31,20 @@ const ArticleDetailScreen = ({ route }) => {
                 <IconButton
                     variant="ghost"
                     onPress={goBack}
-                    icon={<Ionicons name="arrow-back" size={24} color="#000" />}
+                    icon={<Ionicons name="arrow-back" size={24} color="#fff" />}
                     position="absolute"
                     top={0}
                     left={0}
                     ml={4}
                     mt={4}
-                    bg="violet.300"
-                    width={100}
+                    bgColor={'blueGray.500'}
+                    width={50}
+                    height={50}
+                    borderRadius={100}
                 />
 
                 <Center>
-                    <Heading mt={20} size="lg" color="blue.500">{article.title}</Heading>
+                    <Heading mt={20} size="lg" color="black" fontWeight={'bold'}>{article.title}</Heading>
                     <Text fontSize="sm" color="gray.500" mb={2}>{article.author} | {article.publishedDate}</Text>
                 </Center>
 
@@ -83,17 +68,10 @@ const ArticleDetailScreen = ({ route }) => {
                 right={4}
             />
 
-            <IconButton
-                variant="solid"
-                onPress={saveForLater}
-                icon={<Ionicons name="bookmark" size={24} color="#fff" />}
-                bg="blue.500"
-                position="absolute"
-                bottom={4}
-                left={4}
-            />
+        
         </SafeAreaView>
     );
 };
 
 export default ArticleDetailScreen;
+
